@@ -2,7 +2,7 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./test-app    # Make sure this points to the directory containing your React app
+      context: .  # Changed from ./test-app to .
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
