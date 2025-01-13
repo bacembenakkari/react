@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('1') 
-        IMAGE_NAME_FRONTEND = 'bacem592/frontend-1'  // Replace with your image name
+        IMAGE_NAME_FRONTEND = 'bacem592/nouveaudossier-frontend:latest'  // Replace with your image name
     }
 
     stages {
