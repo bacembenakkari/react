@@ -21,7 +21,8 @@ pipeline {
             steps {
                 dir('test-app') {
                     script {
-                        dockerImageFrontend = docker.build("${IMAGE_NAME_FRONTEND}")
+                        sh 'ls -la'
+                        dockerImageFrontend = docker.build("${IMAGE_NAME_FRONTEND}", "-f Dockerfile .")
                     }
                 }
             }
