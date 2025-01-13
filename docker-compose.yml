@@ -1,16 +1,13 @@
-# docker-compose.yml
 version: '3.8'
 services:
   frontend:
     build:
-      context: ./test-app
-      dockerfile: Dockerfile 
+      context: ./test-app    # Make sure this points to the directory containing your React app
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     networks:
       - app-network
+
 networks:
   app-network:
-
-
-

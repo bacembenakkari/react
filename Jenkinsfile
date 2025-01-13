@@ -1,26 +1,29 @@
 pipeline {
     agent any
-
+    
     triggers {
-        pollSCM('* * * * *')  // Adjust this trigger as needed
+        pollSCM('* * * * *')
     }
-
+    
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('1') 
-        IMAGE_NAME_FRONTEND = 'bacem592/nouveaudossier-frontend:latest'  // Replace with your image name
+        DOCKERHUB_CREDENTIALS = credentials('1')
+        IMAGE_NAME_FRONTEND = 'bacem592/nouveaudossier-frontend:latest'
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/bacembenakkari/react'  // Replace with your repo URL
+                git branch: 'main', url: 'https://github.com/bacembenakkari/react'
             }
         }
-
+        
         stage('Build ReactJS Image') {
             steps {
-                dir('test-app') {
+                dir('test-app') {  // Make sure this directory exists and contains your React app
                     script {
+                        // First, verify package.json exists
+                        sh 'ls -la'  // This will help debug file presence
+                        
                         writeFile file: 'Dockerfile', text: '''
                         FROM node:16
                         WORKDIR /app
@@ -31,12 +34,13 @@ pipeline {
                         EXPOSE 3000
                         CMD ["npm", "start"]
                         '''
+                        
                         dockerImageFrontend = docker.build("${IMAGE_NAME_FRONTEND}", "-f Dockerfile .")
                     }
                 }
             }
         }
-
+        
         stage('Test Docker Hub Login') {
             steps {
                 sh '''
@@ -44,7 +48,7 @@ pipeline {
                 '''
             }
         }
-
+        
         stage('Push Image to Docker Hub') {
             steps {
                 script {
